@@ -1,0 +1,26 @@
+name: DevOps Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "Marzo/17/**"
+      - ".github/workflows/devops.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Marzo/17
+
+    steps:
+      - name: Clonar repo
+        uses: actions/checkout@v3
+
+      - name: Construir imagen Docker
+        run: docker build -t mi-app .
+
+      - name: Ejecutar contenedor
+        run: docker run -d -p 80:80 mi-app
